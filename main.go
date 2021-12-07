@@ -2,8 +2,11 @@ package main
 
 import (
 	//"encoding/json"
+
 	"flag"
 	"fmt"
+
+	//"log"
 
 	//"io/ioutil"
 	//"net/http"
@@ -11,6 +14,7 @@ import (
 	"os/signal"
 
 	//"strings"
+	"rest"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
@@ -21,7 +25,33 @@ var (
 	Token string
 )
 
-const KuteGoAPIURL = "https://kutego-api-xxxxx-ew.a.run.app"
+//const KuteGoAPIURL = "https://kutego-api-xxxxx-ew.a.run.app"
+
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+
+	// Ignore all messages created by the bot itself
+	// This isn't required in this specific example but it's a good practice.
+	if m.Author.ID == s.State.User.ID {
+		return
+	}
+
+	if m.Content == "!jamnik" {
+		resp, err := rest.SendGET("https://www.reddit.com/r/Dachshund.json")
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode == 200 {
+
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			fmt.Println("Error: Can't get random Dachshound! :(")
+		}
+	}
+}
 
 func init() {
 	flag.StringVar(&Token, "t", "", "Bot Token")
