@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"encoding/json"
 	"flag"
 	"fmt"
 
@@ -11,7 +10,8 @@ import (
 	"os/signal"
 
 	//"strings"
-	"stankryj/JamnikBot/rest"
+
+	"stankryj/JamnikBot/aplikacja"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
@@ -29,10 +29,6 @@ func init() {
 	flag.Parse()
 }
 
-type Jamnik struct {
-	Name string `json: "name"`
-}
-
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Ignore all messages created by the bot itself
@@ -42,19 +38,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == "!jamnik" {
-		resp, err := rest.SendGET("https://www.reddit.com/r/Dachshund.json")
+		_, err := s.ChannelMessage("915909449829482498", aplikacja.GetRandomJamnik())
 		if err != nil {
 			fmt.Println(err)
-		}
-		defer resp.Body.Close()
-
-		if resp.StatusCode == 200 {
-
-			if err != nil {
-				fmt.Println(err)
-			}
-		} else {
-			fmt.Println("Error: Can't get random Dachshound! :(")
 		}
 	}
 }
