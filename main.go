@@ -16,6 +16,8 @@ var (
 	Token string
 )
 
+//Token := "OTE1OTA3NTM3ODI2NjExMjAw.YaibXQ.3PmXn-72AXF4psfPXhI0dFloPYo"
+
 func init() {
 	flag.StringVar(&Token, "t", "", "Bot Token")
 	flag.Parse()
@@ -31,6 +33,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Content == "!jamnik" {
 		_, err := s.ChannelMessage("915909449829482498", aplikacja.GetRandomJamnik())
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	if m.Content == "!halo" {
+		_, err := s.ChannelMessage("915909449829482498", "halo!")
 		if err != nil {
 			fmt.Println(err)
 		}

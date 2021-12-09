@@ -14,7 +14,9 @@ func SendGET(url string) (*[]byte, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-	defer response.Body.Close()
+	if response.Body != nil {
+		defer response.Body.Close()
+	}
 
 	if response.StatusCode != 200 {
 		eror := fmt.Sprintf("GET: Bad Request StatusCode = %d", response.StatusCode)
