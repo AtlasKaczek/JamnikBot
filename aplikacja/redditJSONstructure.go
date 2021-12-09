@@ -39,6 +39,10 @@ func (t Images) GetImageURL(i int) string {
 	return t.Data.Children[i].DataV2.Url_overriden_by_dest
 }
 
+func (t Images) GetChildrenLen() int {
+	return len(t.Data.Children)
+}
+
 // func (t Images) GetMediaId(i,j int) string {
 // 	return t.Data.Children[i].DataV2.Gallery_data.Items[j].Media_id
 // }
