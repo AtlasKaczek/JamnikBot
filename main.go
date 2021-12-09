@@ -2,11 +2,8 @@ package main
 
 import (
 	//"encoding/json"
-
 	"flag"
 	"fmt"
-
-	//"log"
 
 	//"io/ioutil"
 	//"net/http"
@@ -14,7 +11,7 @@ import (
 	"os/signal"
 
 	//"strings"
-	"rest"
+	"stankryj/JamnikBot/rest"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
@@ -26,6 +23,15 @@ var (
 )
 
 //const KuteGoAPIURL = "https://kutego-api-xxxxx-ew.a.run.app"
+
+func init() {
+	flag.StringVar(&Token, "t", "", "Bot Token")
+	flag.Parse()
+}
+
+type Jamnik struct {
+	Name string `json: "name"`
+}
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
@@ -51,11 +57,6 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println("Error: Can't get random Dachshound! :(")
 		}
 	}
-}
-
-func init() {
-	flag.StringVar(&Token, "t", "", "Bot Token")
-	flag.Parse()
 }
 
 func main() {
