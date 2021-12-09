@@ -3,14 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-
-	//"io/ioutil"
-	//"net/http"
 	"os"
 	"os/signal"
-
-	//"strings"
-
 	"stankryj/JamnikBot/aplikacja"
 	"syscall"
 
@@ -21,8 +15,6 @@ import (
 var (
 	Token string
 )
-
-//const KuteGoAPIURL = "https://kutego-api-xxxxx-ew.a.run.app"
 
 func init() {
 	flag.StringVar(&Token, "t", "", "Bot Token")
