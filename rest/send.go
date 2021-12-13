@@ -10,6 +10,7 @@ import (
 func SendGET(url string) (*[]byte, error) {
 
 	response, err := http.Get(url)
+	response.Header.Add("User-Agent", "")
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -19,7 +20,7 @@ func SendGET(url string) (*[]byte, error) {
 	}
 
 	if response.StatusCode != 200 {
-		eror := fmt.Sprintf("GET: Bad Request StatusCode = %d", response.StatusCode)
+		eror := fmt.Sprintf("GET: Bad Request StatusCode = %d \n", response.StatusCode)
 		return nil, errors.New(eror)
 	}
 

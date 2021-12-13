@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"stankryj/JamnikBot/aplikacja"
+	"strconv"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
@@ -30,9 +31,13 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == "!jamnik" {
-		_, err := s.ChannelMessageSend("915909449829482498", aplikacja.GetRandomJamnik())
+		jamnik, err := aplikacja.GetRandomJamnik("https://www.reddit.com/r/Dachshund.json")
 		if err != nil {
 			fmt.Println(err)
+		}
+		_, merr := s.ChannelMessageSend("915909449829482498", strconv.Itoa(jamnik.GetChildrenLen()))
+		if merr != nil {
+			fmt.Println(merr)
 		}
 	}
 	if m.Content == "!halo" {
