@@ -5,11 +5,20 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"stankryj/JamnikBot/aplikacja"
-	"strconv"
+
+	//"stankryj/JamnikBot/aplikacja"
+	//"strconv"
+
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+
+	"github.com/go-rod/rod"
+	//"github.com/go-rod/rod/lib/cdp"
+	//"github.com/go-rod/rod/lib/input"
+	//"github.com/go-rod/rod/lib/launcher"
+	//"github.com/go-rod/rod/lib/proto"
+	//"github.com/go-rod/rod/lib/utils"
 )
 
 // Variables used for command line parameters
@@ -31,14 +40,29 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == "!jamnik" {
-		jamnik, err := aplikacja.GetRandomJamnik("https://www.reddit.com/r/Dachshund.json")
+		browser := rod.New().MustConnect()
+
+		defer browser.MustClose()
+
+		page := browser.MustPage("https://www.reddit.com/r/Dachshund.json")
+		bin, err := page.GetResource("https://www.reddit.com/r/Dachshund.json")
 		if err != nil {
 			fmt.Println(err)
 		}
-		_, merr := s.ChannelMessageSend("915909449829482498", strconv.Itoa(jamnik.GetChildrenLen()))
-		if merr != nil {
-			fmt.Println(merr)
-		}
+
+		fmt.Printf("%s\n", string(bin))
+		// page := browser.MustPage("https://golang.org/pkg/time")
+		// resp := page.MustElement("#pkg-overview").MustText()
+		// jamnik, err := aplikacja.GetRandomJamnik("https://www.reddit.com/r/Dachshund.json")
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
+		//_, merr := s.ChannelMessageSend("915909449829482498", )
+		// if merr != nil {
+		// 	fmt.Println(merr)
+		// } else {
+		// 	fmt.Printf("MessegeSend: chuj\n")
+		// }
 	}
 	if m.Content == "!halo" {
 		_, err := s.ChannelMessageSend("915909449829482498", "halo!")
