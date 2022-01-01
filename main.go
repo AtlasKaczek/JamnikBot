@@ -37,7 +37,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 		fmt.Println(len(jamn.GetImagesIndexList()))
 
-		_, merr := s.ChannelMessageSend("915909449829482498", jamn.GetImageURL(jamn.GetImagesIndexList()[rand.Intn(len(jamn.GetImagesIndexList()))]))
+		_, merr := s.ChannelMessageSend(m.ChannelID, jamn.GetImageURL(jamn.GetImagesIndexList()[rand.Intn(len(jamn.GetImagesIndexList()))]))
 		if merr != nil {
 			fmt.Println(merr)
 		} else {
@@ -45,7 +45,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 	if m.Content == "!halo" {
-		_, err := s.ChannelMessageSend("915909449829482498", "halo!")
+		_, err := s.ChannelMessageSend(m.ChannelID, "halo!")
 		if err != nil {
 			fmt.Println(err)
 		} else {
