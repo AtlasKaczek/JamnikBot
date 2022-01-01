@@ -1,3 +1,2 @@
-#List of files to ignore
-go.mod
-go.sum
+# List of files to ignore
+.vscode/
