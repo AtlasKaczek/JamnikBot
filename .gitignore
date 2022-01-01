@@ -1,1 +1,3 @@
+#List of files to ignore
 go.mod
+go.sum
