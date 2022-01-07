@@ -3,6 +3,7 @@ package aplikacja
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/go-rod/rod"
 )
@@ -28,4 +29,18 @@ func GetJamnikObj() (Images, error) {
 	}
 
 	return jamnik, nil
+}
+
+// Gets command and url from !add <command> <url>
+func GetCMDvariables(messegeContents string) (string, string, error) {
+	res := strings.TrimPrefix(messegeContents, "!add ")
+	var res1, url string
+	for i := 0; i < len(res); i++ {
+		if res[i] == ' ' {
+			res1 = res[:i]
+			url = res[i:]
+			break
+		}
+	}
+	return res1, url, nil
 }

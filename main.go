@@ -52,6 +52,18 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Printf("MessegeSend: halo!\n")
 		}
 	}
+	// Add new command and reddit to the list - TODO
+	if m.Content[0:4] == "!add" {
+		res, url, err := aplikacja.GetCMDvariables(m.Content)
+		if err != nil {
+			fmt.Println(err)
+		}
+		_, merr := s.ChannelMessageSend(m.ChannelID, res+" "+url)
+		if merr != nil {
+			fmt.Println(err)
+		}
+		fmt.Printf("MessegeSend: ADD\n")
+	}
 }
 
 func main() {
