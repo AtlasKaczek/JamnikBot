@@ -52,17 +52,40 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Printf("MessegeSend: halo!\n")
 		}
 	}
-	// Add new command and reddit to the list - TODO
 	if m.Content[0:4] == "!add" {
 		res, url, err := aplikacja.GetCMDvariables(m.Content)
 		if err != nil {
 			fmt.Println(err)
 		}
-		_, merr := s.ChannelMessageSend(m.ChannelID, res+" "+url)
-		if merr != nil {
-			fmt.Println(err)
+
+		first, cmderr := aplikacja.CheckCMD(res)
+		second, urlerr := aplikacja.CheckURL(url)
+
+		if !first {
+			str := fmt.Sprintf("%e\n", cmderr)
+			_, merr := s.ChannelMessageSend(m.ChannelID, "{("+str[13:])
+			if merr != nil {
+				fmt.Println(merr)
+			}
+			fmt.Printf("MessegeSend: ADD: ERROR\n")
+		} else if !second {
+			str := fmt.Sprintf("%e\n", urlerr)
+			_, merr := s.ChannelMessageSend(m.ChannelID, "{("+str[13:])
+			if merr != nil {
+				fmt.Println(merr)
+			}
+			fmt.Printf("MessegeSend: ADD: ERROR\n")
+		} else {
+			stferr := aplikacja.Stf(res, url)
+			if stferr != nil {
+				fmt.Println(stferr)
+			}
+			_, merr := s.ChannelMessageSend(m.ChannelID, "Saved new command: !"+res+" "+url)
+			if merr != nil {
+				fmt.Println(merr)
+			}
+			fmt.Printf("MessegeSend: ADD: SUCCESS\n")
 		}
-		fmt.Printf("MessegeSend: ADD\n")
 	}
 }
 
